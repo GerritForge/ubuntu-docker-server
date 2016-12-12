@@ -44,3 +44,6 @@ fi
 title "Server up-and-running"
 IP=$(ip -f inet addr show | grep inet | awk '{print $2}' | grep -v 127.0. | grep -v 172. | cut -d '/' -f 1)
 echo "IP: $IP"
+
+title "Ready to serve Docker machine remotely"
+echo "Set your DOCKER_HOST to tcp://$IP:2375"
