@@ -38,6 +38,7 @@ if [ ! -d ~/.ssh ]
 then
   ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa < /dev/null
   echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA0R66EoZ7hFp81w9sAJqu34UFyE+w36H/mobUqnT5Lns7PcTOJh3sgMJAlswX2lFAWqvF2gd2PRMpMhbfEU4iq2SfY8x+RDCJ4ZQWESln/587T41BlQjOXzu3W1bqgmtHnRCte3DjyWDvM/fucnUMSwOgP+FVEZCLTrk3thLMWsU= rootkey' >> ~/.ssh/authorized_keys
+  echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDvu1P+ALB0dvkHVSAOfAVe+GSNqoBdRNfILP0x2TjGpwipNIaW7dKbACpq4w9JpfakKtOSThv7Ar2clfZeWlu5InMqLL5vX/QX9VB/Du2EhYYehHvEzKVwosfRvcMnv20Axh8obuA7AHPMguvS9ggMDpfpEL9YFXE3JPmpX8cC+9DTumuUnBH/bJWslX/JAuEeAI3bkeEjErCqjnE3um4JGYPv+LF4yNQ7KC3FfkXiY7e9ynCSe3AvAqNPMTHP/Yph8v7iVbKPb3Avs/igIEH2lkKJhq8SWMt/DuCft8yYVybfi3amYUIsjdIAWcc/ct/AhfH4LSkp0dVlL4uEwE1D rootkey1' >> ~/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
 fi
 
