@@ -42,6 +42,9 @@ then
   chmod 600 ~/.ssh/authorized_keys
 fi
 
+title "Enable docker socket for all users"
+chmod a+rw /var/run/docker.sock
+
 title "Server up-and-running"
 IP=$(ip -f inet addr show | grep inet | awk '{print $2}' | grep -v 127.0. | grep -v 172. | cut -d '/' -f 1)
 echo "IP: $IP"
