@@ -7,7 +7,7 @@ function title {
 
 title "Setup DNS"
 killall -9 dnsmasq
-sed -i -e 's/dns=dmsmsaq//g' /etc/NetworkManager/NetworkManager.conf
+sed -i -e 's/dns=dnsmasq//g' /etc/NetworkManager/NetworkManager.conf
 /etc/init.d/network-manager restart
 sleep 10
 
