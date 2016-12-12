@@ -30,4 +30,12 @@ sed -i -e 's/ExecStart=.*/ExecStart=\/usr\/bin\/dockerd -H tcp:\/\/0.0.0.0:2375 
 systemctl daemon-reload
 systemctl restart docker.service
 
+title "Enable root login via SSH"
+ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa < /dev/null
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA0R66EoZ7hFp81w9sAJqu34UFyE+w36H/mobUqnT5Lns7PcTOJh3sgMJAlswX2lFAWqvF2gd2PRMpMhbfEU4iq2SfY8x+RDCJ4ZQWESln/587T41BlQjOXzu3W1bqgmtHnRCte3DjyWDvM/fucnUMSwOgP+FVEZCLTrk3thLMWsU= rootkey' >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+title "Server up-and-running"
+IP=$(ip -f inet addr show | grep inet | awk '{print $2}' | grep -v 127.0. | grep -v 172.17. | cut -d '/' -f 1)
+echo "IP: $IP"
 
