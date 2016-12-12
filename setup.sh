@@ -10,6 +10,9 @@ killall -9 dnsmasq
 sed -i -e 's/dns=dmsmsaq//g' /etc/NetworkManager/NetworkManager.conf
 /etc/init.d/network-manager restart
 
+title "Setup OpenSSH Server"
+apt-get install -y openssh-server
+
 title "Mount Docker volume"
 mkdir /var/lib/docker
 mount /dev/sdb2 /var/lib/docker
