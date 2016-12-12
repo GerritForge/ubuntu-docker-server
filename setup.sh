@@ -9,6 +9,7 @@ title "Setup DNS"
 killall -9 dnsmasq
 sed -i -e 's/dns=dmsmsaq//g' /etc/NetworkManager/NetworkManager.conf
 /etc/init.d/network-manager restart
+sleep 5
 
 title "Setup OpenSSH Server"
 apt-get install -y openssh-server
@@ -23,5 +24,10 @@ apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 \
 echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" > /etc/apt/sources.list.d/docker.list
 apt-get update
 apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual docker-engine
+
+title "Configure Docker"
+sed -i -e 's/ExecStart=.*/ExecStart=\/usr\/bin\/dockerd -H tcp:\/\/0.0.0.0:2375 -H unix:\/\/\/var\/run\/docker.sock/g' /lib/systemd/system/docker.service
+systemctl daemon-reload
+systemctl restart docker.service
 
 
