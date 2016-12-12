@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 function title {
   echo $1
@@ -15,8 +15,11 @@ title "Setup OpenSSH Server"
 apt-get install -y openssh-server
 
 title "Mount Docker volume"
-mkdir /var/lib/docker
-mount /dev/sdb2 /var/lib/docker
+if [ ! -d /var/lib/docker ]
+then
+  mkdir /var/lib/docker
+  mount /dev/sdb2 /var/lib/docker
+fi
 
 title "Install Docker"
 apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 \
@@ -26,16 +29,18 @@ apt-get update
 apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual docker-engine
 
 title "Configure Docker"
-sed -i -e 's/ExecStart=.*/ExecStart=\/usr\/bin\/dockerd -H tcp:\/\/0.0.0.0:2375 -H unix:\/\/\/var\/run\/docker.sock/g --insecure-registry artifactory.nap:6556' /lib/systemd/system/docker.service
+sed -i -e 's/ExecStart=.*/ExecStart=\/usr\/bin\/dockerd -H tcp:\/\/0.0.0.0:2375 -H unix:\/\/\/var\/run\/docker.sock --insecure-registry artifactory.nap:6556/g' /lib/systemd/system/docker.service
 systemctl daemon-reload
 systemctl restart docker.service
 
 title "Enable root login via SSH"
-ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa < /dev/null
-echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA0R66EoZ7hFp81w9sAJqu34UFyE+w36H/mobUqnT5Lns7PcTOJh3sgMJAlswX2lFAWqvF2gd2PRMpMhbfEU4iq2SfY8x+RDCJ4ZQWESln/587T41BlQjOXzu3W1bqgmtHnRCte3DjyWDvM/fucnUMSwOgP+FVEZCLTrk3thLMWsU= rootkey' >> ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
+if [ ! -d ~/.ssh ]
+then
+  ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa < /dev/null
+  echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA0R66EoZ7hFp81w9sAJqu34UFyE+w36H/mobUqnT5Lns7PcTOJh3sgMJAlswX2lFAWqvF2gd2PRMpMhbfEU4iq2SfY8x+RDCJ4ZQWESln/587T41BlQjOXzu3W1bqgmtHnRCte3DjyWDvM/fucnUMSwOgP+FVEZCLTrk3thLMWsU= rootkey' >> ~/.ssh/authorized_keys
+  chmod 600 ~/.ssh/authorized_keys
+fi
 
 title "Server up-and-running"
 IP=$(ip -f inet addr show | grep inet | awk '{print $2}' | grep -v 127.0. | grep -v 172. | cut -d '/' -f 1)
 echo "IP: $IP"
-
