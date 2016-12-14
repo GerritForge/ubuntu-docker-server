@@ -8,6 +8,17 @@ function title {
 title "Setup DNS"
 killall -9 dnsmasq
 sed -i -e 's/dns=dnsmasq//g' /etc/NetworkManager/NetworkManager.conf
+/etc/init.d/network-manager restart
+
+function isNetworkUp {
+  echo "GET /" | nc archive.ubuntu.com 80
+}
+
+while !isNetworkUp
+do
+  echo "Waiting for network to come up ..."
+  sleep 1
+done
 
 title "Setup OpenSSH Server"
 apt-get install -y openssh-server
