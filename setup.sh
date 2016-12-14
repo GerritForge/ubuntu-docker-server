@@ -10,11 +10,7 @@ killall -9 dnsmasq
 sed -i -e 's/dns=dnsmasq//g' /etc/NetworkManager/NetworkManager.conf
 /etc/init.d/network-manager restart
 
-function isNetworkUp {
-  echo "GET /" | nc archive.ubuntu.com 80
-}
-
-while !isNetworkUp
+while ! $(echo "GET /" | nc -w 10 archive.ubuntu.com 80)
 do
   echo "Waiting for network to come up ..."
   sleep 1
