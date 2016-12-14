@@ -10,11 +10,17 @@ killall -9 dnsmasq
 sed -i -e 's/dns=dnsmasq//g' /etc/NetworkManager/NetworkManager.conf
 /etc/init.d/network-manager restart
 
+function setupOpenssh {
+  /usr/bin/apt-get install -y openssh-server
+}
+
 title "Setup OpenSSH Server"
-while ! $(/usr/bin/apt-get install -y openssh-server)
+setupOpenssh
+while [ "$?" != "0" ]
 do
   echo "Retrying ..."
   sleep 1
+  setupOpenssh
 done
 
 title "Mount Docker volume"
