@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -xe
 
 function title {
   echo $1
@@ -11,7 +11,7 @@ sed -i -e 's/dns=dnsmasq//g' /etc/NetworkManager/NetworkManager.conf
 /etc/init.d/network-manager restart
 
 title "Setup OpenSSH Server"
-while ! $(apt-get install -y openssh-server)
+while ! $(/usr/bin/apt-get install -y openssh-server)
 do
   echo "Retrying ..."
   sleep 1
