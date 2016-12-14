@@ -5,6 +5,9 @@ function title {
   echo $1 | sed -e 's/./-/g'
 }
 
+title "Update APT repository"
+apt-get update
+
 title "Setup DNS"
 killall -9 dnsmasq
 sed -i -e 's/dns=dnsmasq//g' /etc/NetworkManager/NetworkManager.conf
