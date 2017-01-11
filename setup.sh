@@ -31,7 +31,7 @@ apt-get update
 apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual docker-engine
 
 title "Configure Docker"
-sed -i -e 's/ExecStart=.*/ExecStart=\/usr\/bin\/dockerd -H tcp:\/\/0.0.0.0:2375 -H unix:\/\/\/var\/run\/docker.sock --insecure-registry artifactory.nap:6556/g' /lib/systemd/system/docker.service
+sed -i -e 's/ExecStart=.*/ExecStart=\/usr\/bin\/dockerd -H tcp:\/\/0.0.0.0:2375 -H unix:\/\/\/var\/run\/docker.sock --insecure-registry artifactory.nap:6556 --insecure-registry docker.artifactory.yoox.net/g' /lib/systemd/system/docker.service
 systemctl daemon-reload
 systemctl restart docker.service
 
